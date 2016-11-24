@@ -37,6 +37,8 @@ import com.layer.sdk.query.Query;
 import com.layer.sdk.query.SortDescriptor;
 import com.squareup.picasso.Picasso;
 
+import java.util.List;
+
 public class AtlasMessagesRecyclerView extends RecyclerView {
     private AtlasMessagesAdapter mAdapter;
     private LinearLayoutManager mLayoutManager;
@@ -85,6 +87,8 @@ public class AtlasMessagesRecyclerView extends RecyclerView {
                 }
             }
         });
+
+        addCellFactories(Atlas.getCellFactoryInstances());
 
         return this;
     }
@@ -154,6 +158,12 @@ public class AtlasMessagesRecyclerView extends RecyclerView {
      */
     public AtlasMessagesRecyclerView addCellFactories(AtlasCellFactory... cellFactories) {
         mAdapter.addCellFactories(cellFactories);
+        return this;
+    }
+
+    public AtlasMessagesRecyclerView addCellFactories(List<AtlasCellFactory> cellFactories) {
+        AtlasCellFactory[] cellFactoryArray = cellFactories.toArray(new AtlasCellFactory[cellFactories.size()]);
+        mAdapter.addCellFactories(cellFactoryArray);
         return this;
     }
 

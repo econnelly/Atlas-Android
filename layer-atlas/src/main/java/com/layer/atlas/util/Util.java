@@ -22,13 +22,9 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
+import com.layer.atlas.Atlas;
 import com.layer.atlas.BuildConfig;
 import com.layer.atlas.R;
-import com.layer.atlas.messagetypes.generic.GenericCellFactory;
-import com.layer.atlas.messagetypes.location.LocationCellFactory;
-import com.layer.atlas.messagetypes.singlepartimage.SinglePartImageCellFactory;
-import com.layer.atlas.messagetypes.text.TextCellFactory;
-import com.layer.atlas.messagetypes.threepartimage.ThreePartImageCellFactory;
 import com.layer.sdk.LayerClient;
 import com.layer.sdk.exceptions.LayerException;
 import com.layer.sdk.listeners.LayerAuthenticationListener;
@@ -74,19 +70,20 @@ public class Util {
 
     // TODO: base this on registered types
     public static String getLastMessageString(Context context, Message message) {
-        if (TextCellFactory.isType(message)) {
-            return TextCellFactory.getMessagePreview(context, message);
-        }
-        if (ThreePartImageCellFactory.isType(message)) {
-            return ThreePartImageCellFactory.getMessagePreview(context, message);
-        }
-        if (LocationCellFactory.isType(message)) {
-            return LocationCellFactory.getMessagePreview(context, message);
-        }
-        if (SinglePartImageCellFactory.isType(message)) {
-            return SinglePartImageCellFactory.getMessagePreview(context, message);
-        }
-        return GenericCellFactory.getPreview(context, message);
+        return Atlas.getPreviewText(context, message);
+//        if (TextCellFactory.isType(message)) {
+//            return TextCellFactory.getMessagePreview(context, message);
+//        }
+//        if (ThreePartImageCellFactory.isType(message)) {
+//            return ThreePartImageCellFactory.getMessagePreview(context, message);
+//        }
+//        if (LocationCellFactory.isType(message)) {
+//            return LocationCellFactory.getMessagePreview(context, message);
+//        }
+//        if (SinglePartImageCellFactory.isType(message)) {
+//            return SinglePartImageCellFactory.getMessagePreview(context, message);
+//        }
+//        return GenericCellFactory.getPreview(context, message);
     }
 
     public static String getConversationTitle(LayerClient client, Conversation conversation) {
