@@ -60,10 +60,7 @@ public class AtlasCellFactoryInfo {
     public String getPreviewText(Context context, Message message) {
         if (getPreviewTextMethod != null) {
             try {
-                if (context != null) {
-                    return (String) getPreviewTextMethod.invoke(null, context, message);
-                }
-                return (String) getPreviewTextMethod.invoke(null, message);
+                return (String) getPreviewTextMethod.invoke(null, context, message);
             } catch (InvocationTargetException e) {
                 e.printStackTrace();
             } catch (IllegalAccessException e) {
@@ -72,9 +69,5 @@ public class AtlasCellFactoryInfo {
         }
 
         return GenericCellFactory.getPreview(context, message);
-    }
-
-    public String getPreviewText(Message message) {
-        return getPreviewText(null, message);
     }
 }

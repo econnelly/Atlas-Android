@@ -20,11 +20,7 @@ public class Atlas {
 
         for (AtlasCellFactoryInfo atlasCellFactoryInfo : sConfiguration.getCellFactories()) {
             if (atlasCellFactoryInfo.isType(message)) {
-                if (context != null) {
-                    return atlasCellFactoryInfo.getPreviewText(context, message);
-                } else {
-                    return atlasCellFactoryInfo.getPreviewText(message);
-                }
+                return atlasCellFactoryInfo.getPreviewText(context, message);
             }
         }
 
