@@ -1,7 +1,5 @@
 package com.layer.atlas;
 
-import android.content.Context;
-
 import com.layer.atlas.messagetypes.AtlasCellFactory;
 import com.layer.atlas.messagetypes.AtlasCellFactoryInfo;
 
@@ -21,12 +19,10 @@ public class Configuration {
     }
 
     public static class Builder {
-        Context mContext;
+
         private ArrayList<AtlasCellFactoryInfo> mCellFactories;
 
-        public Builder(Context context) {
-            mContext = context.getApplicationContext();
-        }
+        public Builder() {}
 
         public Builder addCellFactory(Class<? extends AtlasCellFactory> factory) {
             if (mCellFactories == null) {
