@@ -64,6 +64,7 @@ public class AtlasConversationsRecyclerView extends RecyclerView {
 
         mAdapter = new AtlasConversationsAdapter(getContext(), layerClient, picasso);
         mAdapter.setStyle(conversationStyle);
+
         super.setAdapter(mAdapter);
         refresh();
 
