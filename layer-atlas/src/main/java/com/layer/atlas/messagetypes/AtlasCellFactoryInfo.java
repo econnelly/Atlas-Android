@@ -15,6 +15,10 @@ public class AtlasCellFactoryInfo {
     private final Method isTypeMethod;
     private final Method getPreviewTextMethod;
 
+    private enum MethodType {
+        ISTYPE, PREVIEWTEXT
+    }
+
     private AtlasCellFactoryInfo(Class<? extends AtlasCellFactory> mCellFactoryClass, Method isTypeMethod, Method getPreviewTextMethod) {
         this.mCellFactoryClass = mCellFactoryClass;
         this.isTypeMethod = isTypeMethod;
@@ -27,15 +31,36 @@ public class AtlasCellFactoryInfo {
         Method previewTextMethod = null;
         if (allMethods != null) {
             for (Method method : allMethods) {
-                if (method.isAnnotationPresent(IsType.class)) {
+                Class<?>[] paramTypes = method.getParameterTypes();
+                if (method.isAnnotationPresent(IsType.class) && isValidMethod(paramTypes, MethodType.ISTYPE)) {
                     isTypeMethod = method;
-                } else if (method.isAnnotationPresent(PreviewText.class)) {
+                } else if (method.isAnnotationPresent(PreviewText.class) && isValidMethod(paramTypes, MethodType.PREVIEWTEXT)) {
                     previewTextMethod = method;
                 }
             }
         }
 
+        if (isTypeMethod == null && previewTextMethod == null) {
+            throw new RuntimeException(c.getSimpleName() + " needs public static methods annotated with @IsType and @PreviewText");
+        } else if (isTypeMethod == null) {
+            throw new RuntimeException(c.getSimpleName() + " needs a public static method annotated with @IsType that takes one Message argument");
+        } else if (previewTextMethod == null) {
+            throw new RuntimeException(c.getSimpleName() + " needs a public static method annotated with @PreviewText that takes one Context argument and one Message argument");
+        }
+
         return new AtlasCellFactoryInfo(c, isTypeMethod, previewTextMethod);
+    }
+
+    private static boolean isValidMethod(Class<?>[] paramTypes, MethodType methodType) {
+        if (paramTypes == null) {
+            return false;
+        } else if (methodType == MethodType.ISTYPE) {
+            return paramTypes.length == 1 && paramTypes[0] == Message.class;
+        } else if (methodType == MethodType.PREVIEWTEXT) {
+            return paramTypes.length == 2 && paramTypes[0] == Context.class && paramTypes[1] == Message.class;
+        }
+
+        return false;
     }
 
     public Class<? extends AtlasCellFactory> getCellFactoryClass() {
