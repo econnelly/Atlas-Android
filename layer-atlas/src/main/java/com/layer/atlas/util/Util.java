@@ -22,7 +22,6 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
-import com.layer.atlas.Atlas;
 import com.layer.atlas.BuildConfig;
 import com.layer.atlas.R;
 import com.layer.sdk.LayerClient;
@@ -31,7 +30,6 @@ import com.layer.sdk.listeners.LayerAuthenticationListener;
 import com.layer.sdk.listeners.LayerProgressListener;
 import com.layer.sdk.messaging.Conversation;
 import com.layer.sdk.messaging.Identity;
-import com.layer.sdk.messaging.Message;
 import com.layer.sdk.messaging.MessagePart;
 import com.layer.sdk.query.Queryable;
 
@@ -66,11 +64,6 @@ public class Util {
         ClipboardManager manager = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
         ClipData clipData = new ClipData(description, new String[]{"text/plain"}, new ClipData.Item(content));
         manager.setPrimaryClip(clipData);
-    }
-
-    // TODO: base this on registered types
-    public static String getLastMessageString(Context context, Message message) {
-        return Atlas.getPreviewText(context, message);
     }
 
     public static String getConversationTitle(LayerClient client, Conversation conversation) {

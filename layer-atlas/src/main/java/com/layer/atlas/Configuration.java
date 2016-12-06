@@ -1,46 +1,45 @@
 package com.layer.atlas;
 
 import com.layer.atlas.messagetypes.AtlasCellFactory;
-import com.layer.atlas.messagetypes.AtlasCellFactoryInfo;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Configuration {
 
-    private ArrayList<AtlasCellFactoryInfo> mCellFactories;
+    private ArrayList<AtlasCellFactory> mCellFactories;
 
     private Configuration() {
 
     }
 
-    public List<AtlasCellFactoryInfo> getCellFactories() {
+    public List<AtlasCellFactory> getCellFactories() {
         return mCellFactories;
     }
 
     public static class Builder {
 
-        private ArrayList<AtlasCellFactoryInfo> mCellFactories;
+        private ArrayList<AtlasCellFactory> mCellFactories;
 
         public Builder() {}
 
-        public Builder addCellFactory(Class<? extends AtlasCellFactory> factory) {
+        public Builder addCellFactory(AtlasCellFactory factory) {
             if (mCellFactories == null) {
                 mCellFactories = new ArrayList<>();
             }
 
-            mCellFactories.add(AtlasCellFactoryInfo.create(factory));
+            mCellFactories.add(factory);
 
             return this;
         }
 
-        public Builder addCellFactories(Class<? extends AtlasCellFactory> ... factories) {
+        public Builder addCellFactories(AtlasCellFactory ... factories) {
             if (mCellFactories == null) {
                 mCellFactories = new ArrayList<>();
             }
 
-            for (Class<? extends AtlasCellFactory> factory : factories) {
-                mCellFactories.add(AtlasCellFactoryInfo.create(factory));
+            for (AtlasCellFactory factory : factories) {
+                mCellFactories.add(factory);
             }
 
             return this;

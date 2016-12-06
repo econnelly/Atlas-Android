@@ -49,7 +49,7 @@ public class SinglePartImageCellFactory extends AtlasCellFactory<SinglePartImage
 
     @Override
     public boolean isBindable(Message message) {
-        return SinglePartImageCellFactory.isType(message);
+        return isType(message);
     }
 
     @Override
@@ -118,14 +118,16 @@ public class SinglePartImageCellFactory extends AtlasCellFactory<SinglePartImage
     // Static utilities
     //==============================================================================================
 
-    public static boolean isType(Message message) {
+    @Override
+    public boolean isType(Message message) {
         for (MessagePart part : message.getMessageParts()) {
             if (part.getMimeType().startsWith("image/")) return true;
         }
         return false;
     }
 
-    public static String getMessagePreview(Context context, Message message) {
+    @Override
+    public String getPreviewText(Context context, Message message) {
         return context.getString(R.string.atlas_message_preview_image);
     }
 

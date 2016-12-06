@@ -6,7 +6,6 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.textservice.TextInfo;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,11 +24,13 @@ public class TextCellFactory extends AtlasCellFactory<TextCellFactory.CellHolder
         super(256 * 1024);
     }
 
-    public static boolean isType(Message message) {
+    @Override
+    public boolean isType(Message message) {
         return message.getMessageParts().get(0).getMimeType().equals(MIME_TYPE);
     }
 
-    public static String getMessagePreview(Context context, Message message) {
+    @Override
+    public String getPreviewText(Context context, Message message) {
         MessagePart part = message.getMessageParts().get(0);
         // For large text content, the MessagePart may not be downloaded yet.
         return part.isContentReady() ? new String(part.getData()) : "";
@@ -37,7 +38,7 @@ public class TextCellFactory extends AtlasCellFactory<TextCellFactory.CellHolder
 
     @Override
     public boolean isBindable(Message message) {
-        return TextCellFactory.isType(message);
+        return isType(message);
     }
 
     @Override

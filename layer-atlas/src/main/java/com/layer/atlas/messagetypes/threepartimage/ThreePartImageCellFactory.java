@@ -62,7 +62,7 @@ public class ThreePartImageCellFactory extends AtlasCellFactory<ThreePartImageCe
 
     @Override
     public boolean isBindable(Message message) {
-        return ThreePartImageCellFactory.isType(message);
+        return isType(message);
     }
 
     @Override
@@ -173,7 +173,8 @@ public class ThreePartImageCellFactory extends AtlasCellFactory<ThreePartImageCe
     // Static utilities
     //==============================================================================================
 
-    public static boolean isType(Message message) {
+    @Override
+    public boolean isType(Message message) {
         List<MessagePart> parts = message.getMessageParts();
         return parts.size() == 3 &&
                 parts.get(ThreePartImageUtils.PART_INDEX_FULL).getMimeType().startsWith("image/") &&
@@ -181,7 +182,8 @@ public class ThreePartImageCellFactory extends AtlasCellFactory<ThreePartImageCe
                 parts.get(ThreePartImageUtils.PART_INDEX_INFO).getMimeType().equals(ThreePartImageUtils.MIME_TYPE_INFO);
     }
 
-    public static String getMessagePreview(Context context, Message message) {
+    @Override
+    public String getPreviewText(Context context, Message message) {
         return context.getString(R.string.atlas_message_preview_image);
     }
 

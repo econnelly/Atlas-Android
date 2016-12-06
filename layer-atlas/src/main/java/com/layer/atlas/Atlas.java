@@ -3,11 +3,8 @@ package com.layer.atlas;
 import android.content.Context;
 
 import com.layer.atlas.messagetypes.AtlasCellFactory;
-import com.layer.atlas.messagetypes.AtlasCellFactoryInfo;
 import com.layer.sdk.messaging.Message;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.layer.sdk.messaging.MessagePart;
 
 public class Atlas {
     private static Configuration sConfiguration;
@@ -18,28 +15,25 @@ public class Atlas {
 
     public static String getPreviewText(Context context, Message message) {
 
-        for (AtlasCellFactoryInfo atlasCellFactoryInfo : sConfiguration.getCellFactories()) {
+        for (AtlasCellFactory atlasCellFactoryInfo : sConfiguration.getCellFactories()) {
             if (atlasCellFactoryInfo.isType(message)) {
                 return atlasCellFactoryInfo.getPreviewText(context, message);
             }
         }
 
-        return null;
+        return getGenericPreviewText(message);
     }
 
-    public static List<AtlasCellFactory> getCellFactoryInstances() {
-        List<AtlasCellFactory> factoryList = new ArrayList<>();
-        for (AtlasCellFactoryInfo atlasCellFactoryInfo : sConfiguration.getCellFactories()) {
-            try {
-                AtlasCellFactory instance = atlasCellFactoryInfo.getCellFactoryClass().newInstance();
-                factoryList.add(instance);
-            } catch (InstantiationException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            }
+    public static String getGenericPreviewText(Message message) {
+        StringBuilder b = new StringBuilder();
+        boolean isFirst = true;
+        b.append("[");
+        for (MessagePart part : message.getMessageParts()) {
+            if (!isFirst) b.append(", ");
+            isFirst = false;
+            b.append(part.getSize()).append("-byte ").append(part.getMimeType());
         }
-
-        return factoryList;
+        b.append("]");
+        return b.toString();
     }
 }

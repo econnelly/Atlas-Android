@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.layer.atlas.Atlas;
 import com.layer.atlas.AtlasAvatar;
 import com.layer.atlas.R;
 import com.layer.atlas.util.ConversationStyle;
@@ -178,7 +179,8 @@ public class AtlasConversationsAdapter extends RecyclerView.Adapter<AtlasConvers
             viewHolder.mMessageView.setText(null);
             viewHolder.mTimeView.setText(null);
         } else {
-            viewHolder.mMessageView.setText(Util.getLastMessageString(context, lastMessage));
+            String text = Atlas.getPreviewText(context, lastMessage);
+            viewHolder.mMessageView.setText(text);
             if (lastMessage.getReceivedAt() == null) {
                 viewHolder.mTimeView.setText(null);
             } else {
@@ -259,7 +261,6 @@ public class AtlasConversationsAdapter extends RecyclerView.Adapter<AtlasConvers
     public void onQueryItemMoved(RecyclerViewController controller, int fromPosition, int toPosition) {
         notifyItemMoved(fromPosition, toPosition);
     }
-
 
     //==============================================================================================
     // Inner classes

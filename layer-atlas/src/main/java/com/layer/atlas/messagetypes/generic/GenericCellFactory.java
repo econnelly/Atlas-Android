@@ -20,19 +20,6 @@ public class GenericCellFactory extends AtlasCellFactory<GenericCellFactory.Cell
         super(256 * 1024);
     }
 
-    public static String getPreview(Context context, Message message) {
-        StringBuilder b = new StringBuilder();
-        boolean isFirst = true;
-        b.append("[");
-        for (MessagePart part : message.getMessageParts()) {
-            if (!isFirst) b.append(", ");
-            isFirst = false;
-            b.append(part.getSize()).append("-byte ").append(part.getMimeType());
-        }
-        b.append("]");
-        return b.toString();
-    }
-
     @Override
     public boolean isBindable(Message message) {
         return true;
@@ -67,6 +54,25 @@ public class GenericCellFactory extends AtlasCellFactory<GenericCellFactory.Cell
     @Override
     public void bindCellHolder(CellHolder cellHolder, ParsedContent string, Message message, CellHolderSpecs specs) {
         cellHolder.mTextView.setText(string.toString());
+    }
+
+    @Override
+    public boolean isType(Message message) {
+        return true;
+    }
+
+    @Override
+    public String getPreviewText(Context context, Message message) {
+        StringBuilder b = new StringBuilder();
+        boolean isFirst = true;
+        b.append("[");
+        for (MessagePart part : message.getMessageParts()) {
+            if (!isFirst) b.append(", ");
+            isFirst = false;
+            b.append(part.getSize()).append("-byte ").append(part.getMimeType());
+        }
+        b.append("]");
+        return b.toString();
     }
 
     public class CellHolder extends AtlasCellFactory.CellHolder {
